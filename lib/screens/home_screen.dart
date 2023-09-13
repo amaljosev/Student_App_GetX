@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:studentgetx/getx/db_functions/db_functions.dart';
+import 'package:studentgetx/screens/profile/profile_screen.dart';
 import '../getx/routes.dart';
 
 class ScreenHome extends StatelessWidget {
@@ -38,14 +39,14 @@ class ScreenHome extends StatelessWidget {
               title: Text(student.name),
               subtitle: Text('Age: ${student.age.toString()}'),
               onTap: () {
-                Get.toNamed(RouteClass.profileScreen);
+                Get.to(ScreenProfile(index: index));
               },
               trailing: IconButton(
-                 onPressed: () {
-                  StudentDB().deleteStudent(index);
-                  studentDB.getAllStudents();   
-                },
-                  icon: const Icon(Icons.delete)), 
+                  onPressed: () {
+                    StudentDB().deleteStudent(index);
+                    studentDB.getAllStudents();
+                  },
+                  icon: const Icon(Icons.delete)),
             );
           },
         );

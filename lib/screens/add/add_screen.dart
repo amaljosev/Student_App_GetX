@@ -168,8 +168,7 @@ Future<void> isSccess() async {
   emailController.text = '';
   ageController.text = '';
   contactController.text = '';
-  Get.snackbar(
-      'New Student Added!!', 'Added new student and saved datas successfuly',
-      backgroundColor: Colors.green.withOpacity(0.5));
+  final studentDB = Get.put(StudentDB());
+  studentDB.getAllStudents();
   Get.back();
 }
