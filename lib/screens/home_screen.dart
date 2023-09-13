@@ -40,6 +40,12 @@ class ScreenHome extends StatelessWidget {
               onTap: () {
                 Get.toNamed(RouteClass.profileScreen);
               },
+              trailing: IconButton(
+                 onPressed: () {
+                  StudentDB().deleteStudent(index);
+                  studentDB.getAllStudents();   
+                },
+                  icon: const Icon(Icons.delete)), 
             );
           },
         );
