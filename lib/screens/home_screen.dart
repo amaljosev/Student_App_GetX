@@ -1,11 +1,10 @@
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:studentgetx/getx/db_functions/db_functions.dart';
+import 'package:studentgetx/screens/form/form_screen.dart';
 import 'package:studentgetx/screens/profile/profile_screen.dart';
-import '../getx/routes.dart';
 
 class ScreenHome extends StatelessWidget {
   const ScreenHome({super.key});
@@ -53,7 +52,10 @@ class ScreenHome extends StatelessWidget {
       }),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Get.toNamed(RouteClass.getAddScreenRoute());
+          Get.to(const ScreenAdd(
+            isEdit: false,
+            index: 0,
+          ));
         },
         child: const Icon(
           Icons.add,

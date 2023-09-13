@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:studentgetx/getx/routes.dart';
 import 'package:studentgetx/models/student_model.dart';
+import 'package:studentgetx/screens/home_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,8 +20,11 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       theme:
           ThemeData(primarySwatch: Colors.yellow, brightness: Brightness.dark),
-      initialRoute: RouteClass.getHomeRoute(),
-      getPages: RouteClass.routes,
+      initialRoute: '/',
+      getPages:[
+        GetPage(name: '/', page:()=> const ScreenHome()), 
+      ],
+      
     );
   }
 }

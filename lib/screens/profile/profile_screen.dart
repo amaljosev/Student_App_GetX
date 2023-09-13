@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:studentgetx/core/constants.dart';
 import 'package:studentgetx/getx/db_functions/db_functions.dart';
+import 'package:studentgetx/screens/form/form_screen.dart';
 
 class ScreenProfile extends StatelessWidget {
   const ScreenProfile({super.key, required this.index});
@@ -11,12 +12,12 @@ class ScreenProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final studentDB = Get.put(StudentDB());
-    studentDB.getAllStudents();
+    studentDB.getAllStudents();  
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile'),
       ),
-      body: Padding(
+      body: Obx(() => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 80),
         child: Card(
           child: Center(
@@ -62,14 +63,14 @@ class ScreenProfile extends StatelessWidget {
                   height: 20,
                 ),
                 ElevatedButton.icon(
-                    onPressed: () {},
+                    onPressed: () => Get.to( ScreenAdd(isEdit: true,index: index,)),  
                     icon: const Icon(Icons.edit),
                     label: const Text('Edit')),
               ],
             ),
           ),
         ),
-      ),
+      ),),
     );
   }
 }

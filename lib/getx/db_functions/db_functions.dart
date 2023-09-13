@@ -21,4 +21,10 @@ class StudentDB extends GetxController {
     await sutdentDB.deleteAt(index); 
     getAllStudents();
   }
+    Future<void> editStudent(int index, StudentModel student) async {
+    final studentDB = await Hive.openBox<StudentModel>('student_db');
+    await studentDB.putAt(index, student);
+    getAllStudents(); 
+
+  }
 }
