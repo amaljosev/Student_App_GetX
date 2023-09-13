@@ -121,13 +121,15 @@ class ScreenAdd extends StatelessWidget {
               Row(
                 children: [
                   Expanded(
-                      child: ElevatedButton(
-                          onPressed: () {
-                            if (formKey.currentState!.validate()) {
-                              isSccess();
-                            }
-                          },
-                          child: const Text('Submit'))),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if (formKey.currentState!.validate()) {
+                          isSccess();
+                        }
+                      },
+                      child: const Text('Submit'),
+                    ),
+                  ),
                 ],
               )
             ],
