@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:studentgetx/getx/form_image.dart';
@@ -27,18 +29,37 @@ class ScreenAdd extends StatelessWidget {
               const SizedBox(
                 height: 30,
               ),
-              ClipOval(
-                child: Container(
-                  width: 120,
-                  height: 120,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                      image: AssetImage(imageController.assetAvatar.value),
-                      fit: BoxFit.fitHeight,
-                    ),
-                  ),
-                ),
+              GestureDetector(
+                onTap: () => imageController.getImage(),
+                child: Obx(() => imageController.imgPath.value == ''
+                    ? ClipOval(
+                        child: Container(
+                          width: 120,
+                          height: 120,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              image:
+                                  AssetImage(imageController.assetAvatar.value),
+                              fit: BoxFit.fitHeight,
+                            ),
+                          ),
+                        ),
+                      )
+                    : ClipOval(
+                        child: Container(
+                          width: 120,
+                          height: 120,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              image: FileImage(
+                                  File(imageController.imgPath.value)),
+                              fit: BoxFit.fitHeight,
+                            ),
+                          ),
+                        ),
+                      )),
               ),
               const SizedBox(
                 height: 30,
