@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-
 import '../getx/routes.dart';
 
 
@@ -10,9 +8,9 @@ class ScreenHome extends StatelessWidget {
   const ScreenHome({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) { 
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppBar( 
         title: const Text(
           'Students',
            

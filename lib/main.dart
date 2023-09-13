@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       theme: ThemeData(
-          primarySwatch: Colors.deepPurple, brightness: Brightness.dark), 
+          primarySwatch: Colors.yellow, brightness: Brightness.dark), 
       initialRoute: RouteClass.getHomeRoute(),
       getPages: RouteClass.routes,
     );
