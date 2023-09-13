@@ -1,19 +1,22 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:studentgetx/getx/db_functions/db_functions.dart';
 import '../getx/routes.dart';
-
 
 class ScreenHome extends StatelessWidget {
   const ScreenHome({super.key});
 
   @override
-  Widget build(BuildContext context) { 
+  Widget build(BuildContext context) {
+    final studentDB = Get.put(StudentDB());
+    studentDB.getAllStudents();
     return Scaffold(
-      appBar: AppBar( 
+      appBar: AppBar(
         title: const Text(
           'Students',
-           
         ),
         actions: [
           IconButton(
@@ -23,16 +26,32 @@ class ScreenHome extends StatelessWidget {
               )),
         ],
       ),
-      body: const Center(child: Text('data')),
-      floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Get.toNamed(RouteClass.getAddScreenRoute());
+      body: Obx(() {
+        return ListView.builder(
+          itemCount: studentDB.students.length,
+          itemBuilder: (context, index) {
+            final student = studentDB.students[index];
+            return ListTile(
+              leading: CircleAvatar(
+                backgroundImage: FileImage(File(student.profile)),
+              ),
+              title: Text(student.name),
+              subtitle: Text('Age: ${student.age.toString()}'),
+              onTap: () {
+                Get.toNamed(RouteClass.profileScreen);
+              },
+            );
           },
-          child: const Icon(
-            Icons.add,
-
-          ),
-          ),
+        );
+      }),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Get.toNamed(RouteClass.getAddScreenRoute());
+        },
+        child: const Icon(
+          Icons.add,
+        ),
+      ),
     );
   }
 }
