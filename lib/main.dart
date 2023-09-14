@@ -23,6 +23,7 @@ class MyApp extends StatelessWidget {
       getPages: [
         GetPage(name: '/', page: () => const ScreenHome()),
       ],
+      debugShowCheckedModeBanner: false, 
     );
   }
 }

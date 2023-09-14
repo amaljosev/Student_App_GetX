@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:studentgetx/getx/db_functions/db_functions.dart';
 import 'package:studentgetx/screens/form/form_screen.dart';
 import 'package:studentgetx/screens/profile/profile_screen.dart';
+import 'package:studentgetx/screens/search/search_screen.dart';
 
 class ScreenHome extends StatelessWidget {
   const ScreenHome({super.key});
@@ -20,7 +21,8 @@ class ScreenHome extends StatelessWidget {
         ),
         actions: [
           IconButton(
-              onPressed: () {},
+              onPressed: () =>
+                  showSearch(context: context, delegate: SearchStudent()),
               icon: const Icon(
                 CupertinoIcons.search,
               )),
