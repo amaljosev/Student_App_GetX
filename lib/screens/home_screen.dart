@@ -41,10 +41,7 @@ class ScreenHome extends StatelessWidget {
                 Get.to(ScreenProfile(index: index));
               },
               trailing: IconButton(
-                  onPressed: () {
-                    StudentDB().deleteStudent(index);
-                    studentDB.getAllStudents();
-                  },
+                  onPressed: () => alertDialog(index, studentDB),
                   icon: const Icon(Icons.delete)),
             );
           },
@@ -63,4 +60,21 @@ class ScreenHome extends StatelessWidget {
       ),
     );
   }
+}
+
+void alertDialog(int index, StudentDB studentDB) {
+  Get.defaultDialog(
+    title: 'Delete Student!!',
+    middleText: 'Are you sure you want to delete this student?',
+    textConfirm: 'Delete',
+    textCancel: 'Cancel',
+    onConfirm: () {
+      StudentDB().deleteStudent(index);
+      studentDB.getAllStudents();
+      Get.back();
+    },
+    onCancel: () {
+      Get.back();
+    },
+  );
 }

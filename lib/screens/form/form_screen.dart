@@ -2,14 +2,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:studentgetx/getx/form/student_form.dart';
-import 'package:studentgetx/getx/form_image.dart';
-
+import 'package:studentgetx/getx/form/form_image.dart';
 
 FormImage imageController = Get.put(FormImage());
 FormFunctions studentFormController = Get.put(FormFunctions());
 
 class ScreenForm extends StatelessWidget {
-  const ScreenForm({ 
+  const ScreenForm({
     super.key,
     required this.isEdit,
     required this.index,
@@ -18,7 +17,9 @@ class ScreenForm extends StatelessWidget {
   final int index;
   @override
   Widget build(BuildContext context) {
-    isEdit ? studentFormController.isUpdate(index) : studentFormController.reset();
+    isEdit
+        ? studentFormController.isUpdate(index)
+        : studentFormController.reset();
 
     return Scaffold(
       appBar: AppBar(
@@ -28,7 +29,7 @@ class ScreenForm extends StatelessWidget {
         () => Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Form(
-            key: studentFormController.formKey, 
+            key: studentFormController.formKey,
             child: ListView(
               children: [
                 const SizedBox(
@@ -134,15 +135,29 @@ class ScreenForm extends StatelessWidget {
                   children: [
                     Expanded(
                       child: ElevatedButton(
-                        onPressed: () {
+                        onPressed: () async {
                           if (studentFormController.formKey.currentState!
                               .validate()) {
                             if (imageController.imgPath.value != '') {
-                              isEdit
-                                  ? studentFormController.updateData(index)
-                                  : studentFormController.submitData();
+                              if (isEdit) {
+                                await studentFormController.updateData(index);
+                              } else {
+                                await studentFormController.submitData();
+                              }
+                              Get.snackbar(
+                                'Success',
+                                isEdit
+                                    ? 'Data Updated Successfully'
+                                    : 'Data Submitted Successfully',
+                                backgroundColor: Colors.green.withOpacity(0.5),
+                              );
                             } else {
                               studentFormController.notSuccess();
+                              Get.snackbar(
+                                'Error',
+                                'Image path is empty',
+                                backgroundColor: Colors.red.withOpacity(0.5),
+                              );
                             }
                           }
                         },
