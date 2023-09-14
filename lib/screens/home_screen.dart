@@ -52,7 +52,7 @@ class ScreenHome extends StatelessWidget {
       }),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Get.to(const ScreenAdd(
+          Get.to(const ScreenForm(
             isEdit: false,
             index: 0,
           ));

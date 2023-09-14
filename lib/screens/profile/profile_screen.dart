@@ -63,7 +63,7 @@ class ScreenProfile extends StatelessWidget {
                   height: 20,
                 ),
                 ElevatedButton.icon(
-                    onPressed: () => Get.to( ScreenAdd(isEdit: true,index: index,)),  
+                    onPressed: () => Get.to( ScreenForm(isEdit: true,index: index,)),  
                     icon: const Icon(Icons.edit),
                     label: const Text('Edit')),
               ],

@@ -1,19 +1,15 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:studentgetx/getx/db_functions/db_functions.dart';
+import 'package:studentgetx/getx/form/student_form.dart';
 import 'package:studentgetx/getx/form_image.dart';
-import 'package:studentgetx/models/student_model.dart';
+
 
 FormImage imageController = Get.put(FormImage());
-final nameController = TextEditingController();
-final emailController = TextEditingController();
-final ageController = TextEditingController();
-final contactController = TextEditingController();
-final formKey = GlobalKey<FormState>();
+FormFunctions studentFormController = Get.put(FormFunctions());
 
-class ScreenAdd extends StatelessWidget {
-  const ScreenAdd({
+class ScreenForm extends StatelessWidget {
+  const ScreenForm({ 
     super.key,
     required this.isEdit,
     required this.index,
@@ -22,7 +18,7 @@ class ScreenAdd extends StatelessWidget {
   final int index;
   @override
   Widget build(BuildContext context) {
-    isEdit ? isUpdate(index) : reset();
+    isEdit ? studentFormController.isUpdate(index) : studentFormController.reset();
 
     return Scaffold(
       appBar: AppBar(
@@ -32,7 +28,7 @@ class ScreenAdd extends StatelessWidget {
         () => Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Form(
-            key: formKey,
+            key: studentFormController.formKey, 
             child: ListView(
               children: [
                 const SizedBox(
@@ -73,36 +69,38 @@ class ScreenAdd extends StatelessWidget {
                   height: 30,
                 ),
                 TextFormField(
-                  controller: nameController,
+                  controller: studentFormController.nameController,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     hintText: 'Full Name',
                     prefixIcon: Icon(Icons.person),
                   ),
-                  validator: (value) => nameController.text.isEmpty
-                      ? 'Name field is empty'
-                      : null,
+                  validator: (value) =>
+                      studentFormController.nameController.text.isEmpty
+                          ? 'Name field is empty'
+                          : null,
                 ),
                 const SizedBox(
                   height: 20,
                 ),
                 TextFormField(
-                  controller: emailController,
+                  controller: studentFormController.emailController,
                   keyboardType: TextInputType.emailAddress,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     hintText: 'Email Address',
                     prefixIcon: Icon(Icons.mail),
                   ),
-                  validator: (value) => emailController.text.isEmpty
-                      ? 'Email field is empty'
-                      : null,
+                  validator: (value) =>
+                      studentFormController.emailController.text.isEmpty
+                          ? 'Email field is empty'
+                          : null,
                 ),
                 const SizedBox(
                   height: 20,
                 ),
                 TextFormField(
-                  controller: ageController,
+                  controller: studentFormController.ageController,
                   maxLength: 2,
                   keyboardType: TextInputType.number,
                   decoration: const InputDecoration(
@@ -111,13 +109,15 @@ class ScreenAdd extends StatelessWidget {
                     prefixIcon: Icon(Icons.av_timer),
                   ),
                   validator: (value) =>
-                      ageController.text.isEmpty ? 'Age field is empty' : null,
+                      studentFormController.ageController.text.isEmpty
+                          ? 'Age field is empty'
+                          : null,
                 ),
                 const SizedBox(
                   height: 5,
                 ),
                 TextFormField(
-                  controller: contactController,
+                  controller: studentFormController.contactController,
                   keyboardType: TextInputType.number,
                   maxLength: 10,
                   decoration: const InputDecoration(
@@ -125,24 +125,28 @@ class ScreenAdd extends StatelessWidget {
                     hintText: 'Contact Number',
                     prefixIcon: Icon(Icons.phone),
                   ),
-                  validator: (value) => contactController.text.isEmpty
-                      ? 'Contact field is empty'
-                      : null,
+                  validator: (value) =>
+                      studentFormController.contactController.text.isEmpty
+                          ? 'Contact field is empty'
+                          : null,
                 ),
                 Row(
                   children: [
                     Expanded(
                       child: ElevatedButton(
                         onPressed: () {
-                          if (formKey.currentState!.validate()) {
+                          if (studentFormController.formKey.currentState!
+                              .validate()) {
                             if (imageController.imgPath.value != '') {
-                              isEdit ? updateData(index) : submitData();
+                              isEdit
+                                  ? studentFormController.updateData(index)
+                                  : studentFormController.submitData();
                             } else {
-                              notSuccess();
+                              studentFormController.notSuccess();
                             }
                           }
                         },
-                        child: const Text('Submit'),
+                        child: Text(isEdit ? 'Update' : 'Submit'),
                       ),
                     ),
                   ],
@@ -154,56 +158,4 @@ class ScreenAdd extends StatelessWidget {
       ),
     );
   }
-}
-
-Future<void> isUpdate(int index) async {
-  final studentDB = Get.put(StudentDB());
-  await studentDB.getAllStudents();
-  imageController.imgPath.value = studentDB.students[index].profile;
-  nameController.text = studentDB.students[index].name;
-  emailController.text = studentDB.students[index].email;
-  ageController.text = studentDB.students[index].age.toString();
-  contactController.text = studentDB.students[index].contact.toString();
-}
-
-void notSuccess() {
-  Get.snackbar('Image not added!!', 'Please add a image of student');
-}
-
-Future<void> submitData() async {
-  final studentObject = StudentModel(
-      id: DateTime.now(),
-      name: nameController.text.trim(),
-      email: emailController.text.trim(),
-      age: int.parse(ageController.text.trim()),
-      contact: int.parse(contactController.text.trim()),
-      profile: imageController.imgPath.value);
-
-  await StudentDB().addStudent(studentObject);
-  reset();
-  final studentDB = Get.put(StudentDB());
-  studentDB.getAllStudents();
-  Get.back();
-}
-
-Future<void> updateData(int index) async {
-  final studentObject = StudentModel(
-      id: DateTime.now(),
-      name: nameController.text.trim(),
-      email: emailController.text.trim(),
-      age: int.parse(ageController.text.trim()),
-      contact: int.parse(contactController.text.trim()),
-      profile: imageController.imgPath.value);
-  await StudentDB().editStudent(index, studentObject);
-  final studentDB = Get.put(StudentDB());
-  studentDB.getAllStudents();
-  Get.back();
-}
-
-reset() {
-  imageController.imgPath.value = '';
-  nameController.text = '';
-  emailController.text = '';
-  ageController.text = '';
-  contactController.text = '';
 }
